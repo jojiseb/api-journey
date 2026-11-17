@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.TaskPatchDto;
 import org.example.dto.TaskUpdateDto;
 import org.example.model.Task;
 import org.example.service.TaskService;
@@ -45,6 +46,11 @@ public class TaskController {
     @PutMapping("/{id}")
     public Task updateById(@PathVariable Long id, @RequestBody TaskUpdateDto taskUpdateDto) { //Added Separate TaskUpdateDto with no id in requestBody
         return taskService.updateTaskById(id, taskUpdateDto); //to avoid possibility of having non-matching id in request than that of id in url
+    }
+
+    @PatchMapping("/{id}")
+    public Task patchUpdateById(@PathVariable Long id, @RequestBody TaskPatchDto taskPatchDto) {
+        return taskService.patchUpdateTaskById(id, taskPatchDto);
     }
 
 

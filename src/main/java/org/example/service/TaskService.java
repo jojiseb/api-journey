@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.dto.TaskPatchDto;
 import org.example.dto.TaskUpdateDto;
 import org.example.model.Task;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ public class TaskService {
     private final List<Task> tasks = new ArrayList<>();
 
     private long nextId = 1;
-
 
     public Task createTask(Task task) {
         task.setId(nextId++);
@@ -43,5 +43,15 @@ public class TaskService {
         taskToBeEdited.setTitle(updatedTask.getTitle());
         taskToBeEdited.setCompleted(updatedTask.isCompleted());
         return taskToBeEdited;
+    }
+
+    public Task patchUpdateTaskById(Long id, TaskPatchDto patchedTask) {
+        Task taskToBePatched = getTaskById(id);
+        if(taskToBePatched == null) return null;
+        if(patchedTask.getTitle() != null)
+            taskToBePatched.setTitle(patchedTask.getTitle());
+        if(patchedTask.isCompleted() != null)
+            taskToBePatched.setCompleted(patchedTask.isCompleted());
+        return taskToBePatched;
     }
 }
