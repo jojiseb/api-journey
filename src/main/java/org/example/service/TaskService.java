@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.dto.TaskUpdateDto;
 import org.example.model.Task;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,15 @@ public class TaskService {
                 .orElse(null);
     }
 
-    public void deleteById(Long id) {
-        tasks.removeIf(task -> task.getId().equals(id));
+    public boolean deleteById(Long id) {
+        return tasks.removeIf(task -> task.getId().equals(id));
     }
 
+    public Task updateTaskById(Long id, TaskUpdateDto updatedTask) {
+        Task taskToBeEdited = getTaskById(id);
+        if(taskToBeEdited == null) return null;
+        taskToBeEdited.setTitle(updatedTask.getTitle());
+        taskToBeEdited.setCompleted(updatedTask.isCompleted());
+        return taskToBeEdited;
+    }
 }

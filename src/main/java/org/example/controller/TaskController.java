@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.TaskUpdateDto;
 import org.example.model.Task;
 import org.example.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,19 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public String deleteById(@PathVariable Long id) {
+        boolean isDeleted = taskService.deleteById(id);
+        if(isDeleted) {
+            return "Task with id : "+id+" is deleted";
+        }
+        else {
+            return "No task found for id "+id;
+        }
+    }
 
+    @PutMapping("/{id}")
+    public Task updateById(@PathVariable Long id, @RequestBody TaskUpdateDto taskUpdateDto) { //Added Separate TaskUpdateDto with no id in requestBody
+        return taskService.updateTaskById(id, taskUpdateDto); //to avoid possibility of having non-matching id in request than that of id in url
     }
 
 
